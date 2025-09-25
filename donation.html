@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Seelife - Donation</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{
+      --primary-color:#2E8B57;
+      --secondary-color:#1E5945;
+      --text-color:#333;
+      --light-gray:#f6f7f8;
+      --white:#fff;
+      --transition:all .25s ease;
+      --error-color:#e74c3c;
+      --success-color:#27ae60;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:Inter, Poppins, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--light-gray);
+      color:var(--text-color);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+    }
+
+    .container{max-width:1100px;margin:0 auto;padding:0 16px;}
+
+    /* Header */
+    header{
+      background:var(--white);
+      box-shadow:0 2px 10px rgba(0,0,0,0.06);
+      position:sticky;top:0;z-index:1000;
+    }
+    .nav-content{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      padding:18px 0;
+    }
+    .logo a{font-size:26px;font-weight:700;color:var(--primary-color);text-decoration:none}
+    .menu{display:flex;gap:18px;list-style:none;align-items:center}
+    .menu a{color:var(--text-color);text-decoration:none;font-weight:500;font-size:14px;transition:var(--transition)}
+    .menu a:hover{color:var(--primary-color)}
+    .menu a.active{color:var(--primary-color)}
+    .donate-btn{background:var(--primary-color);color:#fff;padding:8px 18px;border-radius:6px;text-decoration:none;transition:var(--transition)}
+    .donate-btn:hover{background:var(--secondary-color)}
+    .hamburger{
+      display:none;
+      background:none;
+      border:0;
+      font-size:20px;
+      cursor:pointer;
+      color:var(--text-color);
+    }
+
+    /* Progress bar (added) */
+    .progress-bar {
+      display:flex;
+      justify-content:center;
+      gap:36px;
+      padding:12px 0;
+      background: transparent;
+    }
+    .progress-step {
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:6px;
+      min-width:72px;
+    }
+    .step-circle {
+      width:34px;
+      height:34px;
+      border-radius:50%;
+      background:#ddd;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:700;
+    }
+    .step-circle.active {
+      background:var(--primary-color);
+    }
+    .step-label {
+      font-size:13px;
+      color:#666;
+      text-align:center;
+    }
+
+    /* Currency selector */
+    .currency-selector{margin-left:auto;margin-right:8px}
+    .currency-selector select{padding:6px 10px;border-radius:6px;border:1px solid #d7d7d7;font-size:14px;cursor:pointer}
+
+    /* Donation section */
+    .donation-form{
+      padding:64px 0;
+      background: linear-gradient(135deg,var(--secondary-color),var(--primary-color));
+      color:#fff;
+      min-height:calc(100vh - 90px);
+      display:flex;
+      align-items:center;
+    }
+
+    .form-container{
+      width:100%;
+      max-width:900px;
+      margin:0 auto;
+      background:var(--white);
+      border-radius:12px;
+      padding:28px;
+      box-shadow:0 14px 40px rgba(10,10,10,0.15);
+      color:var(--text-color);
+      display:grid;
+      grid-template-columns: 1fr 380px;
+      gap:20px;
+    }
+
+    /* Left column: form fields */
+    .form-left .form-header{margin-bottom:18px}
+    .form-header h2{color:var(--secondary-color);font-size:22px;margin-bottom:6px}
+    .form-header p{color:#666;font-size:14px}
+
+    .form-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .form-group{display:flex;flex-direction:column;margin-bottom:12px}
+    label{font-size:12px;font-weight:600;color:#444;margin-bottom:6px}
+    input[type="text"],input[type="email"],input[type="tel"],select,textarea{
+      padding:10px 12px;border-radius:8px;border:1px solid #e5e5e5;font-size:14px;background:#fff;
+      transition:var(--transition);
+    }
+    input:focus, select:focus, textarea:focus{
+      outline:none;
+      border-color:var(--primary-color);
+      box-shadow:0 0 0 2px rgba(46, 139, 87, 0.2);
+    }
+    textarea{min-height:90px;resize:vertical}
+    .full-width{grid-column:1/-1}
+    
+    /* Error styling */
+    .error {
+      border-color: var(--error-color) !important;
+    }
+    .error-message {
+      color: var(--error-color);
+      font-size: 12px;
+      margin-top: 4px;
+      display: none;
+    }
+
+    /* Right column: donation controls */
+    .form-right{padding:6px 4px}
+    .donation-type{
+      display:flex;background:#f3f3f3;border-radius:999px;padding:6px;align-items:center;position:relative;margin-bottom:18px;
+    }
+    .donation-type input{display:none}
+    .donation-type label{
+      flex:1;text-align:center;padding:10px 0;border-radius:999px;cursor:pointer;font-weight:600;color:#4d4d4d;
+      transition:var(--transition);z-index:1;
+    }
+    .donation-type .slider{
+      position:absolute;left:6px;top:6px;width:calc(50% - 12px);height:calc(100% - 12px);
+      background:var(--primary-color);border-radius:999px;transition:var(--transition);
+    }
+    #monthly:checked ~ .slider{transform:translateX(calc(100% + 12px));}
+    #monthly:checked ~ #label-monthly{color:#fff}
+    #one-time:checked ~ #label-one-time{color:#fff}
+
+    .amount-selection{margin-bottom:12px}
+    .amount-selection h3{text-align:center;font-size:14px;font-weight:700;color:#555;margin-bottom:10px}
+    .amount-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .amount-option{
+      background:#f9f9f9;border-radius:10px;padding:12px;text-align:center;font-weight:700;border:2px solid #eee;cursor:pointer;
+      transition:var(--transition);font-size:18px;color:#444;
+    }
+    .amount-option:hover{border-color:var(--primary-color)}
+    .amount-option.selected{background:var(--primary-color);color:#fff;border-color:var(--primary-color)}
+    .custom-amount{display:flex;align-items:center;gap:8px;margin-top:10px;border-radius:10px;padding:8px;background:#f9f9f9;border:2px solid #eee}
+    .custom-amount .currency{font-weight:700;color:#666;min-width:72px;text-align:left}
+    .custom-amount input{border:0;background:transparent;font-weight:700;font-size:16px;outline:none;padding:6px;width:100%}
+
+    .dedication-option{display:flex;align-items:center;gap:10px;margin:14px 0;padding:10px;border-radius:10px;background:#f9f9f9}
+    .dedication-option input{width:18px;height:18px;cursor:pointer}
+
+    .donate-btn-container{text-align:center;margin-top:8px}
+    .donate-now-btn{
+      width:100%;padding:12px;border-radius:10px;background:var(--primary-color);color:#fff;border:0;font-weight:700;cursor:pointer;
+      transition:var(--transition);font-size:16px;
+    }
+    .donate-now-btn:hover{background:var(--secondary-color)}
+    .donate-now-btn:disabled{background:#ccc;cursor:not-allowed}
+
+    /* Donation quick buttons */
+    .donation-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .donation-buttons .donation-amount{
+      padding:8px 12px;border-radius:8px;border:1px solid #ddd;background:#fff;cursor:pointer;font-weight:700;
+      transition:var(--transition);
+    }
+    .donation-buttons .donation-amount:hover{background:#f0f0f0}
+    .donation-buttons .donation-amount.active{background:var(--primary-color);color:#fff;border-color:var(--primary-color)}
+
+    /* Footer area (small) */
+    footer{padding:18px 0;text-align:center;color:#777;font-size:13px}
+
+    /* Responsive */
+    @media (max-width:980px){
+      .form-container{grid-template-columns:1fr;max-width:760px;padding:20px}
+      .hamburger{display:block}
+      .menu{
+        display:none;
+        flex-direction:column;
+        position:absolute;
+        top:100%;
+        left:0;
+        right:0;
+        background:var(--white);
+        box-shadow:0 5px 10px rgba(0,0,0,0.1);
+        padding:20px;
+        gap:15px;
+      }
+      .menu.active{display:flex}
+      .currency-selector{margin-left:8px}
+      .progress-bar{gap:18px;padding:10px 0}
+      .step-label{font-size:12px}
+    }
+
+    @media (max-width:768px){
+      .nav-content{
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .currency-selector{
+        order: 3;
+        margin-left: 0;
+        width: 100%;
+        margin-top: 10px;
+      }
+      .currency-selector select{
+        width: 100%;
+      }
+    }
+
+    @media (max-width:480px){
+      .form-fields{grid-template-columns:1fr}
+      .amount-grid{grid-template-columns:1fr 1fr}
+      .donation-buttons{justify-content:center}
+      .progress-step{min-width:56px}
+      .step-circle{width:30px;height:30px}
+    }
+
+    /* Success message */
+    .success-message {
+      display: none;
+      background: var(--success-color);
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="nav-content">
+        <div class="logo"><a href="#">Seelife</a></div>
+
+        <ul class="menu" id="mainMenu" role="navigation" aria-label="Main menu">
+          <li><a href="#" class="active">HOME</a></li>
+          <li><a href="#">ABOUT</a></li>
+          <li><a href="#">CAUSES</a></li>
+          <li><a href="#">PAGES</a></li>
+          <li><a href="#">CONTACT</a></li>
+          <li><a href="#" class="donate-btn">DONATE</a></li>
+        </ul>
+
+        <!-- Currency selector (top-right) -->
+        <div class="currency-selector" title="Select currency">
+          <select id="currency-select" aria-label="Select currency">
+            <!-- Popular currencies first, then alphabetical -->
+            <option value="USD" selected>USD - $</option>
+            <option value="EUR">EUR - €</option>
+            <option value="GBP">GBP - £</option>
+            <option value="CAD">CAD - $</option>
+            <option value="AUD">AUD - $</option>
+            <option value="JPY">JPY - ¥</option>
+            <option value="CNY">CNY - ¥</option>
+            <option value="INR">INR - ₹</option>
+            <option value="NGN">NGN - ₦</option>
+            <option value="BRL">BRL - R$</option>
+            <option value="ZAR">ZAR - R</option>
+            <option value="MXN">MXN - $</option>
+            <option value="CHF">CHF - Fr</option>
+            <option value="SEK">SEK - kr</option>
+            <option value="NOK">NOK - kr</option>
+            <option value="DKK">DKK - kr</option>
+            <option value="PLN">PLN - zł</option>
+            <option value="RUB">RUB - ₽</option>
+            <option value="KRW">KRW - ₩</option>
+            <option value="HKD">HKD - $</option>
+            <option value="SGD">SGD - $</option>
+            <option value="NZD">NZD - $</option>
+            <option value="AED">AED - د.إ</option>
+            <option value="SAR">SAR - ﷼</option>
+            <option value="EGP">EGP - £</option>
+            <option value="KES">KES - KSh</option>
+            <option value="GHS">GHS - ₵</option>
+            <option value="THB">THB - ฿</option>
+            <option value="VND">VND - ₫</option>
+            <option value="MYR">MYR - RM</option>
+            <option value="PHP">PHP - ₱</option>
+            <option value="IDR">IDR - Rp</option>
+            <option value="PKR">PKR - ₨</option>
+            <option value="BDT">BDT - ৳</option>
+            <option value="LKR">LKR - ₨</option>
+            <option value="TRY">TRY - ₺</option>
+            <option value="ILS">ILS - ₪</option>
+            <option value="HUF">HUF - Ft</option>
+            <option value="CZK">CZK - Kč</option>
+            <option value="RON">RON - lei</option>
+            <option value="UAH">UAH - ₴</option>
+            <option value="CLP">CLP - $</option>
+            <option value="COP">COP - $</option>
+            <option value="ARS">ARS - $</option>
+            <option value="PEN">PEN - S/.</option>
+            <option value="MAD">MAD - د.م.</option>
+            <option value="TND">TND - د.ت</option>
+            <option value="DZD">DZD - دج</option>
+            <option value="ETB">ETB - Br</option>
+          </select>
+        </div>
+
+        <button id="hamburgerMenu" class="hamburger" aria-label="Open menu" aria-expanded="false">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+
+      <!-- Progress bar showing current step (Donation = active) -->
+      <div class="progress-bar" role="navigation" aria-label="Progress">
+        <div class="progress-step" aria-current="step">
+          <div class="step-circle active">1</div>
+          <div class="step-label">Donation</div>
+        </div>
+
+        <div class="progress-step">
+          <div class="step-circle">2</div>
+          <div class="step-label">Payment</div>
+        </div>
+
+        <div class="progress-step">
+          <div class="step-circle">3</div>
+          <div class="step-label">Confirmation</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Donation Section -->
+  <section class="donation-form" aria-labelledby="donation-title">
+    <div class="container">
+      <div class="form-container" role="region" aria-label="Donation form">
+
+        <!-- LEFT: donor personal details -->
+        <div class="form-left">
+          <div class="form-header">
+            <h2 id="donation-title">Make a Donation</h2>
+            <p>Your contribution can make a real difference in someone's life</p>
+          </div>
+
+          <form id="donationForm" novalidate>
+            <div class="form-fields">
+              <div class="form-group">
+                <label for="fullname">FULL NAME</label>
+                <input id="fullname" name="fullname" type="text" placeholder="Your name" required>
+                <div class="error-message" id="fullname-error">Please enter your full name</div>
+              </div>
+
+              <div class="form-group">
+                <label for="email">EMAIL ADDRESS</label>
+                <input id="email" name="email" type="email" placeholder="Your email" required>
+                <div class="error-message" id="email-error">Please enter a valid email address</div>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">PHONE NUMBER</label>
+                <input id="phone" name="phone" type="tel" placeholder="Your phone number">
+                <div class="error-message" id="phone-error">Please enter a valid phone number</div>
+              </div>
+
+              <div class="form-group">
+                <label for="cause">SELECT CAUSE</label>
+                <select id="cause" name="cause" required>
+                  <option value="">Select a cause</option>
+                  <option value="education">Education for Children</option>
+                  <option value="water">Clean Water Access</option>
+                  <option value="medical">Medical Care</option>
+                  <option value="shelter">Homeless Shelter</option>
+                  <option value="food">Food Distribution</option>
+                </select>
+                <div class="error-message" id="cause-error">Please select a cause</div>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="message">MESSAGE (Optional)</label>
+                <textarea id="message" name="message" placeholder="Write a short message (optional)"></textarea>
+              </div>
+            </div>
+
+            <!-- Small preview of chosen donation summary for accessibility -->
+            <div style="margin-top:8px;font-size:13px;color:#666">Selected: <span id="summary-amount">USD $19</span> • Type: <span id="summary-type">Monthly</span></div>
+
+            <!-- Success message -->
+            <div class="success-message" id="success-message">
+              Thank you for your donation! We'll contact you shortly with payment instructions.
+            </div>
+          </form>
+        </div>
+
+        <!-- RIGHT: donation controls -->
+        <div class="form-right">
+          <!-- toggle -->
+          <div class="donation-type" role="tablist" aria-label="Donation type">
+            <input type="radio" id="one-time" name="donation-type" value="one-time">
+            <input type="radio" id="monthly" name="donation-type" value="monthly" checked>
+            <label for="one-time" id="label-one-time">One-time</label>
+            <label for="monthly" id="label-monthly">Monthly</label>
+            <div class="slider" aria-hidden="true"></div>
+          </div>
+
+          <!-- amount selection -->
+          <div class="amount-selection" aria-live="polite">
+            <h3 id="amount-title">Choose an amount to donate monthly</h3>
+
+            <div class="amount-grid" role="list" id="amountGrid">
+              <div role="listitem" class="amount-option" data-amount="100" tabindex="0"> $100</div>
+              <div role="listitem" class="amount-option" data-amount="50" tabindex="0"> $50</div>
+              <div role="listitem" class="amount-option" data-amount="25" tabindex="0">$25</div>
+              <div role="listitem" class="amount-option selected" data-amount="19" tabindex="0">$19</div>
+            </div>
+
+            <div class="custom-amount" style="margin-top:12px">
+              <span class="currency" id="custom-currency">USD $</span>
+              <input id="custom-amount-input" type="text" inputmode="decimal" placeholder="Other amount">
+            </div>
+
+            <div style="margin-top:10px;font-size:13px;color:#666">
+              Or quick pick:
+              <div class="donation-buttons" style="display:inline-block; margin-left:8px;">
+                <button type="button" class="donation-amount" data-amount="10">$10</button>
+                <button type="button" class="donation-amount" data-amount="25">$25</button>
+                <button type="button" class="donation-amount" data-amount="50">$50</button>
+                <button type="button" class="donation-amount" data-amount="100">$100</button>
+                <button type="button" class="donation-amount" data-amount="250">$250</button>
+                <button type="button" class="donation-amount" data-amount="other">Other</button>
+              </div>
+            </div>
+
+            <div class="dedication-option" style="margin-top:12px">
+              <input id="dedicate-donation" type="checkbox">
+              <label for="dedicate-donation">Dedicate my donation 😊</label>
+            </div>
+
+            <div class="donate-btn-container">
+              <button type="button" id="submitDonation" class="donate-now-btn">Donate Monthly</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2023 Seelife. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // --- Currency symbol map (for label updates) ---
+    const currencySymbols = {
+      USD: "$", EUR: "€", GBP: "£", CAD: "$", AUD: "$", JPY: "¥", CNY: "¥",
+      INR: "₹", NGN: "₦", BRL: "R$", ZAR: "R", MXN: "$", CHF: "Fr", SEK: "kr",
+      NOK: "kr", DKK: "kr", PLN: "zł", RUB: "₽", KRW: "₩", HKD: "$", SGD: "$",
+      NZD: "$", AED: "د.إ", SAR: "﷼", EGP: "£", KES: "KSh", GHS: "₵", THB: "฿",
+      VND: "₫", MYR: "RM", PHP: "₱", IDR: "Rp", PKR: "₨", BDT: "৳", LKR: "₨",
+      TRY: "₺", ILS: "₪", HUF: "Ft", CZK: "Kč", RON: "lei", UAH: "₴", CLP: "$",
+      COP: "$", ARS: "$", PEN: "S/.", MAD: "د.م.", TND: "د.ت", DZD: "دج", ETB: "Br"
+    };
+
+    // DOM refs
+    const amountOptions = Array.from(document.querySelectorAll('.amount-option'));
+    const donateBtn = document.getElementById('submitDonation');
+    const customInput = document.getElementById('custom-amount-input');
+    const currencySelect = document.getElementById('currency-select');
+    const customCurrencyLabel = document.getElementById('custom-currency');
+    const amountTitle = document.getElementById('amount-title');
+    const summaryAmount = document.getElementById('summary-amount');
+    const summaryType = document.getElementById('summary-type');
+    const donationTypeInputs = Array.from(document.querySelectorAll('input[name="donation-type"]'));
+    const donationButtonsQuick = Array.from(document.querySelectorAll('.donation-amount'));
+    const successMessage = document.getElementById('success-message');
+
+    // Form validation elements
+    const fullnameInput = document.getElementById('fullname');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const causeSelect = document.getElementById('cause');
+
+    // utility: format display with symbol
+    function displayWithSymbol(code, amount){
+      const sym = currencySymbols[code] || '$';
+      // Format number with commas for thousands
+      const formattedAmount = Number(amount).toLocaleString(undefined, {maximumFractionDigits:2});
+      return `${code} ${sym}${formattedAmount}`;
+    }
+
+    // Initialize
+    let currentCurrency = currencySelect.value || 'USD';
+    function initCurrencyLabels(){
+      const code = currentCurrency;
+      const sym = currencySymbols[code] || '$';
+      
+      // Update preset amount text
+      amountOptions.forEach(opt => {
+        const num = opt.getAttribute('data-amount');
+        opt.textContent = `${sym}${num}`;
+      });
+      
+      // Update quick pick buttons
+      donationButtonsQuick.forEach(btn => {
+        const val = btn.getAttribute('data-amount');
+        if(val === 'other') {
+          btn.textContent = 'Other';
+        } else {
+          btn.textContent = `${sym}${val}`;
+        }
+      });
+      
+      // Update custom label
+      customCurrencyLabel.textContent = `${code} ${sym}`;
+      updateSummaryDisplay();
+    }
+    
+    // Initialize on page load
+    initCurrencyLabels();
+    updateDonationTypeLabels();
+
+    // Amount option selection logic
+    amountOptions.forEach(opt => {
+      opt.addEventListener('click', () => {
+        amountOptions.forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        customInput.value = '';
+        updateSummaryDisplay();
+      });
+    });
+
+    // Quick donation buttons
+    donationButtonsQuick.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.getAttribute('data-amount');
+        if(val === 'other'){
+          amountOptions.forEach(o => o.classList.remove('selected'));
+          customInput.focus();
+        } else {
+          // Set selection to a matching preset if exists, else remove preset and set custom
+          const preset = amountOptions.find(o => o.getAttribute('data-amount') === val);
+          if(preset){
+            amountOptions.forEach(o => o.classList.remove('selected'));
+            preset.classList.add('selected');
+            customInput.value = '';
+          } else {
+            amountOptions.forEach(o => o.classList.remove('selected'));
+            customInput.value = val;
+          }
+        }
+        updateSummaryDisplay();
+      });
+    });
+
+    // Custom input interactions
+    customInput.addEventListener('focus', () => {
+      amountOptions.forEach(o => o.classList.remove('selected'));
+      updateSummaryDisplay();
+    });
+    
+    customInput.addEventListener('input', (e) => {
+      // Allow only numbers and one decimal point
+      let value = e.target.value;
+      value = value.replace(/[^0-9.]/g, '');
+      
+      // Ensure only one decimal point
+      const decimalCount = (value.match(/\./g) || []).length;
+      if (decimalCount > 1) {
+        value = value.substring(0, value.lastIndexOf('.'));
+      }
+      
+      e.target.value = value;
+      updateSummaryDisplay();
+    });
+
+    // Currency change
+    currencySelect.addEventListener('change', (e) => {
+      currentCurrency = e.target.value;
+      initCurrencyLabels();
+    });
+
+    // Donation type toggle logic
+    function updateDonationTypeLabels() {
+      const monthly = document.getElementById('monthly').checked;
+      // Update heading and button
+      amountTitle.textContent = monthly ? 'Choose an amount to donate monthly' : 'Choose an amount to donate';
+      donateBtn.textContent = monthly ? 'Donate Monthly' : 'Donate Now';
+      // Update styling on labels
+      document.getElementById('label-one-time').style.color = monthly ? '#4d4d4d' : '#fff';
+      document.getElementById('label-monthly').style.color = monthly ? '#fff' : '#4d4d4d';
+      // Update summary
+      summaryType.textContent = monthly ? 'Monthly' : 'One-time';
+    }
+    
+    donationTypeInputs.forEach(inp => {
+      inp.addEventListener('change', () => {
+        updateDonationTypeLabels();
+      });
+    });
+
+    // Update summary display
+    function updateSummaryDisplay(){
+      let amount = '';
+      const selected = document.querySelector('.amount-option.selected');
+      if(selected) {
+        amount = selected.getAttribute('data-amount');
+      } else if(customInput.value && customInput.value.trim() !== '') {
+        amount = customInput.value;
+      } else {
+        amount = '19'; // default
+      }
+
+      summaryAmount.textContent = displayWithSymbol(currentCurrency, amount);
+    }
+
+    // Form validation
+    function validateForm() {
+      let isValid = true;
+      
+      // Reset errors
+      document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+      document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+      
+      // Validate full name
+      if(!fullnameInput.value.trim()){
+        fullnameInput.classList.add('error');
+        document.getElementById('fullname-error').style.display = 'block';
+        isValid = false;
+      }
+      
+      // Validate email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!emailInput.value.trim() || !emailRegex.test(emailInput.value)){
+        emailInput.classList.add('error');
+        document.getElementById('email-error').style.display = 'block';
+        isValid = false;
+      }
+      
+      // Validate phone (optional but if provided, validate format)
+      if(phoneInput.value.trim() && !/^[\+]?[0-9\s\-\(\)]{10,}$/.test(phoneInput.value)){
+        phoneInput.classList.add('error');
+        document.getElementById('phone-error').style.display = 'block';
+        isValid = false;
+      }
+      
+      // Validate cause
+      if(!causeSelect.value){
+        causeSelect.classList.add('error');
+        document.getElementById('cause-error').style.display = 'block';
+        isValid = false;
+      }
+      
+      return isValid;
+    }
+
+    // Submission
+    donateBtn.addEventListener('click', () => {
+      if(!validateForm()) return;
+      
+      // Determine final amount
+      let finalAmount = '';
+      const selected = document.querySelector('.amount-option.selected');
+      if(selected) {
+        finalAmount = selected.getAttribute('data-amount');
+      } else if(customInput.value && customInput.value.trim() !== '') {
+        finalAmount = customInput.value;
+      } else {
+        finalAmount = '19';
+      }
+
+      const donationType = document.getElementById('monthly').checked ? 'Monthly' : 'One-time';
+      const dedicate = document.getElementById('dedicate-donation').checked ? 'Yes' : 'No';
+
+      // Redirect to payment.html with URL params
+      const params = new URLSearchParams({
+        amount: finalAmount,
+        currency: currentCurrency,
+        name: fullnameInput.value.trim(),
+        email: emailInput.value.trim(),
+        phone: phoneInput.value.trim(),
+        cause: causeSelect.value,
+        type: donationType,
+        dedicate: dedicate
+      });
+
+      // go to payment page
+      window.location.href = 'payment.html?' + params.toString();
+    });
+
+    // Mobile menu toggle
+    document.getElementById('hamburgerMenu').addEventListener('click', () => {
+      const menu = document.getElementById('mainMenu');
+      const hamburger = document.getElementById('hamburgerMenu');
+      const isExpanded = hamburger.getAttribute('aria-expanded') === 'true';
+      
+      menu.classList.toggle('active');
+      hamburger.setAttribute('aria-expanded', !isExpanded);
+      
+      // Change icon
+      const icon = hamburger.querySelector('i');
+      if(menu.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+      } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      }
+    });
+
+    // Keyboard accessibility: allow Enter on selected amount
+    amountOptions.forEach(opt => {
+      opt.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          opt.click();
+        }
+      });
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('mainMenu');
+      const hamburger = document.getElementById('hamburgerMenu');
+      
+      if(!menu.contains(e.target) && !hamburger.contains(e.target) && menu.classList.contains('active')) {
+        menu.classList.remove('active');
+        hamburger.setAttribute('aria-expanded', 'false');
+        
+        const icon = hamburger.querySelector('i');
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      }
+    });
+
+  </script>
+</body>
+</html>
