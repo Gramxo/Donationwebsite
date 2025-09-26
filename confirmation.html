@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Save the Kids - Donation Confirmed</title>
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2E8B57;
+            --secondary-color: #1E5945;
+            --text-color: #333;
+            --light-gray: #f6f7f8;
+            --white: #fff;
+            --border-color: #e0e0e0;
+            --transition: all 0.18s ease;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Nunito', 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+            background: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.5;
+            -webkit-font-smoothing:antialiased;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 18px; }
+
+        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.06); position: sticky; top: 0; z-index:1000; }
+        .nav-content { display:flex; align-items:center; justify-content:space-between; padding:16px 0; }
+        .logo a { color:var(--primary-color); font-weight:700; font-size:22px; text-decoration:none; display: flex; align-items: center; gap: 12px; }
+        .logo img { width: 40px; height: 40px; }
+
+        .progress-bar { display:flex; justify-content:center; gap:18px; }
+        .progress-step { text-align:center; font-size:13px; color:#666; }
+        .step-circle { width:30px; height:30px; border-radius:50%; background:#ddd; display:inline-flex; align-items:center; justify-content:center; color:#fff; font-weight:700; margin-bottom:6px; }
+        .step-circle.active { background:var(--primary-color); }
+
+        .confirmation-section {
+            padding: 60px 0;
+            min-height: calc(100vh - 220px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .confirmation-container {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            text-align: center;
+            max-width: 700px;
+            width: 100%;
+        }
+        
+        .success-icon {
+            width: 90px;
+            height: 90px;
+            background: #e8f5e9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            color: var(--primary-color);
+            font-size: 40px;
+        }
+        
+        .confirmation-title {
+            font-size: 28px;
+            color: var(--secondary-color);
+            margin-bottom: 16px;
+        }
+        
+        .confirmation-message {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .donation-details {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .detail-value {
+            color: #333;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary-color);
+        }
+        
+        .btn-outline {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background: #f0f8f4;
+        }
+        
+        .receipt-note {
+            font-size: 14px;
+            color: #666;
+            margin-top: 20px;
+        }
+        
+        /* Animation for the success icon */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .success-icon {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Page transition animation */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .page-transition.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .loader-text {
+            margin-top: 20px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .confirmation-container {
+                padding: 30px 20px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .confirmation-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo"><a href="index.html"><img src="logo.svg" alt="Save the Kids Logo">Save the Kids</a></div>
+                <div class="progress-bar" aria-hidden="true">
+                    <div class="progress-step"><div class="step-circle">1</div><div class="step-label">Donation</div></div>
+                    <div class="progress-step"><div class="step-circle">2</div><div class="step-label">Payment</div></div>
+                    <div class="progress-step"><div class="step-circle active">3</div><div class="step-label">Confirmation</div></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-transition" id="pageTransition">
+        <div class="loader"></div>
+        <div class="loader-text">Save the Kids</div>
+    </div>
+
+    <section class="confirmation-section">
+        <div class="container">
+            <div class="confirmation-container">
+                <div class="success-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h1 class="confirmation-title">Thank You for Your Donation!</h1>
+                <p class="confirmation-message">
+                    Your generous contribution will help us make a difference in children's lives around the world.
+                    We've sent a receipt to your email address.
+                </p>
+                
+                <div class="donation-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Donation Amount:</div>
+                        <div class="detail-value">$<span id="donation-amount">100.00</span></div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Donation Type:</div>
+                        <div class="detail-value"><span id="donation-type">One-time</span></div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Transaction ID:</div>
+                        <div class="detail-value"><span id="transaction-id">STK-2023-78945612</span></div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Date:</div>
+                        <div class="detail-value"><span id="donation-date"></span></div>
+                    </div>
+                </div>
+                
+                <p class="receipt-note">
+                    <i class="fas fa-envelope"></i> A receipt has been sent to your email address.
+                </p>
+                
+                <div class="action-buttons">
+                    <a href="index.html" class="btn btn-primary">Return to Homepage</a>
+                    <a href="donation.html" class="btn btn-outline">Make Another Donation</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Set current date
+        document.getElementById('donation-date').textContent = new Date().toLocaleDateString();
+        
+        // Get URL parameters to display donation details
+        const urlParams = new URLSearchParams(window.location.search);
+        const amount = urlParams.get('amount');
+        const type = urlParams.get('type');
+        
+        if (amount) {
+            document.getElementById('donation-amount').textContent = amount;
+        }
+        
+        if (type) {
+            document.getElementById('donation-type').textContent = type;
+        }
+        
+        // Page transition animation
+        const pageTransition = document.getElementById('pageTransition');
+        
+        // Show transition when navigating away
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (!this.href.includes('#')) {
+                    e.preventDefault();
+                    pageTransition.classList.add('active');
+                    
+                    setTimeout(() => {
+                        window.location.href = this.href;
+                    }, 800);
+                }
+            });
+        });
+        
+        // Hide transition on page load
+        window.addEventListener('load', () => {
+            pageTransition.classList.remove('active');
+        });
+        
+        // Show transition briefly on page load for effect
+        pageTransition.classList.add('active');
+        setTimeout(() => {
+            pageTransition.classList.remove('active');
+        }, 800);
+    </script>
+</body>
+</html>

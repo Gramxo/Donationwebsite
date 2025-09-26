@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Save the Kids - Volunteer With Us</title>
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2E8B57;
+            --secondary-color: #1E5945;
+            --accent-color: #FF8C42;
+            --text-color: #333;
+            --light-gray: #f6f7f8;
+            --white: #fff;
+            --border-color: #e0e0e0;
+            --transition: all 0.18s ease;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Nunito', 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+            background: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.5;
+            -webkit-font-smoothing:antialiased;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 18px; }
+
+        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.06); position: sticky; top: 0; z-index:1000; }
+        .nav-content { display:flex; align-items:center; justify-content:space-between; padding:16px 0; }
+        .logo a { color:var(--primary-color); font-weight:700; font-size:22px; text-decoration:none; }
+        
+        .menu { display:flex; gap:18px; list-style:none; align-items:center }
+        .menu a { color:var(--text-color); text-decoration:none; font-weight:500; font-size:14px; transition:var(--transition) }
+        .menu a:hover { color:var(--primary-color) }
+        .menu a.active { color:var(--primary-color) }
+        .donate-btn { background:var(--primary-color); color:#fff; padding:8px 18px; border-radius:6px; text-decoration:none; transition:var(--transition) }
+        .donate-btn:hover { background:var(--secondary-color) }
+        
+        /* Hero section */
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80') no-repeat center center;
+            background-size: cover;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .hero-content h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+        
+        .hero-content p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .cta-button:hover {
+            background: #e67e3a;
+            transform: translateY(-2px);
+        }
+        
+        /* Why volunteer section */
+        .why-volunteer {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 32px;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .reason-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .reason-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .reason-icon {
+            width: 70px;
+            height: 70px;
+            background: #e8f5e9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--primary-color);
+            font-size: 30px;
+        }
+        
+        .reason-card h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+        
+        .reason-card p {
+            color: #555;
+        }
+        
+        /* Volunteer opportunities */
+        .opportunities {
+            padding: 80px 0;
+            background: #f9f9f9;
+        }
+        
+        .opportunities-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        
+        .opportunity-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .opportunity-image {
+            height: 200px;
+        }
+        
+        .opportunity-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .opportunity-content {
+            padding: 25px;
+        }
+        
+        .opportunity-content h3 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+        
+        .opportunity-content p {
+            color: #555;
+            margin-bottom: 20px;
+        }
+        
+        .opportunity-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .meta-item i {
+            color: var(--primary-color);
+        }
+        
+        /* Volunteer process */
+        .process-section {
+            padding: 80px 0;
+        }
+        
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 50px;
+        }
+        
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #e0e0e0;
+            z-index: 1;
+        }
+        
+        .process-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            width: 20%;
+        }
+        
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .process-step h3 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+        
+        .process-step p {
+            color: #555;
+            font-size: 14px;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background: #f9f9f9;
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .testimonial-content {
+            position: relative;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+        
+        .testimonial-content::before {
+            content: '\201C';
+            font-size: 60px;
+            color: #e0e0e0;
+            position: absolute;
+            top: -20px;
+            left: -10px;
+        }
+        
+        .testimonial-content p {
+            color: #555;
+            font-style: italic;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .author-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        
+        .author-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .author-info h4 {
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+        
+        .author-info p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* Apply section */
+        .apply-section {
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .apply-form {
+            max-width: 700px;
+            margin: 40px auto 0;
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+        
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 15px;
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            margin-top: 10px;
+        }
+        
+        .submit-btn:hover {
+            background: var(--secondary-color);
+        }
+        
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h4 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-column a:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer-column p {
+            color: #ddd;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-column i {
+            color: var(--primary-color);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        /* Page transition animation */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .page-transition.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .loader-text {
+            margin-top: 20px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .reasons-grid,
+            .opportunities-grid,
+            .testimonials-grid,
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .process-steps {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .process-steps::before {
+                display: none;
+            }
+            
+            .process-step {
+                width: 100%;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+            
+            .hero-content h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-transition" id="pageTransition">
+        <div class="loader"></div>
+        <div class="loader-text">Save the Kids</div>
+    </div>
+
+    <header>
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo"><a href="#">Save the Kids</a></div>
+                <ul class="menu">
+                    <li><a href="index (2).html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="programs.html">Programs</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="donation.html" class="donate-btn">Donate Now</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Volunteer With Us</h1>
+                <p>Join our community of dedicated volunteers and make a real difference in children's lives</p>
+                <a href="#apply" class="cta-button">Apply Now</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-volunteer">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Volunteer With Us?</h2>
+                <p>Volunteering with Save the Kids offers unique opportunities to make a meaningful impact</p>
+            </div>
+
+            <div class="reasons-grid">
+                <div class="reason-card">
+                    <div class="reason-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Make a Difference</h3>
+                    <p>Directly impact the lives of children in need through your time and skills. See the tangible results of your contribution.</p>
+                </div>
+
+                <div class="reason-card">
+                    <div class="reason-icon">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <h3>Global Experience</h3>
+                    <p>Gain international experience and cultural understanding by working with diverse communities around the world.</p>
+                </div>
+
+                <div class="reason-card">
+                    <div class="reason-icon">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <h3>Build Connections</h3>
+                    <p>Connect with like-minded individuals who share your passion for making the world a better place for children.</p>
+                </div>
+
+                <div class="reason-card">
+                    <div class="reason-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Develop Skills</h3>
+                    <p>Enhance your professional and personal skills through meaningful work and specialized training opportunities.</p>
+                </div>
+
+                <div class="reason-card">
+                    <div class="reason-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Gain Perspective</h3>
+                    <p>Broaden your worldview and gain a deeper understanding of global challenges facing children today.</p>
+                </div>
+
+                <div class="reason-card">
+                    <div class="reason-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Recognition</h3>
+                    <p>Receive formal recognition for your volunteer work, which can enhance your resume and future opportunities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="opportunities">
+        <div class="container">
+            <div class="section-title">
+                <h2>Volunteer Opportunities</h2>
+                <p>Explore the various ways you can contribute your time and skills</p>
+            </div>
+
+            <div class="opportunities-grid">
+                <div class="opportunity-card">
+                    <div class="opportunity-image">
+                        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Education Volunteer">
+                    </div>
+                    <div class="opportunity-content">
+                        <h3>Education Volunteer</h3>
+                        <p>Help children learn and grow by assisting in classrooms, tutoring, or developing educational materials.</p>
+                        <div class="opportunity-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i> 5-20 hours/week
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i> Local & International
+                            </div>
+                        </div>
+                        <a href="#apply" class="cta-button">Apply Now</a>
+                    </div>
+                </div>
+
+                <div class="opportunity-card">
+                    <div class="opportunity-image">
+                        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Healthcare Volunteer">
+                    </div>
+                    <div class="opportunity-content">
+                        <h3>Healthcare Volunteer</h3>
+                        <p>Support our health initiatives by assisting medical professionals, organizing health camps, or promoting health education.</p>
+                        <div class="opportunity-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i> 10-30 hours/week
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i> International
+                            </div>
+                        </div>
+                        <a href="#apply" class="cta-button">Apply Now</a>
+                    </div>
+                </div>
+
+                <div class="opportunity-card">
+                    <div class="opportunity-image">
+                        <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Administrative Volunteer">
+                    </div>
+                    <div class="opportunity-content">
+                        <h3>Administrative Volunteer</h3>
+                        <p>Help our organization run smoothly by assisting with office tasks, data management, or communications.</p>
+                        <div class="opportunity-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i> 5-15 hours/week
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i> Local
+                            </div>
+                        </div>
+                        <a href="#apply" class="cta-button">Apply Now</a>
+                    </div>
+                </div>
+
+                <div class="opportunity-card">
+                    <div class="opportunity-image">
+                        <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="Event Volunteer">
+                    </div>
+                    <div class="opportunity-content">
+                        <h3>Event Volunteer</h3>
+                        <p>Support our fundraising and awareness events by helping with planning, setup, coordination, or promotion.</p>
+                        <div class="opportunity-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i> Flexible
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i> Local
+                            </div>
+                        </div>
+                        <a href="#apply" class="cta-button">Apply Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="process-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Volunteer Process</h2>
+                <p>Our simple 5-step process to becoming a Save the Kids volunteer</p>
+            </div>
+
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <h3>Apply</h3>
+                    <p>Fill out our online application form with your information and interests</p>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <h3>Interview</h3>
+                    <p>Participate in a brief interview to discuss your skills and availability</p>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <h3>Training</h3>
+                    <p>Complete our volunteer orientation and any role-specific training</p>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <h3>Placement</h3>
+                    <p>Get matched with the perfect volunteer opportunity based on your profile</p>
+                </div>
+
+                <div class="process-step">
+                    <div class="step-number">5</div>
+                    <h3>Start</h3>
+                    <p>Begin your volunteer journey and make a difference in children's lives</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Volunteer Stories</h2>
+                <p>Hear from our volunteers about their experiences with Save the Kids</p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>Volunteering with Save the Kids was a life-changing experience. Seeing the direct impact of my work on children's lives gave me a new perspective and purpose. The team was incredibly supportive throughout my journey.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-image">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt="Sarah Johnson">
+                        </div>
+                        <div class="author-info">
+                            <h4>Sarah Johnson</h4>
+                            <p>Education Volunteer, 2 years</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>As a healthcare professional, I wanted to use my skills to help those in need. Save the Kids provided me with the perfect opportunity to do so. The children I worked with taught me more than I could have ever imagined.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-image">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt="Dr. Michael Chen">
+                        </div>
+                        <div class="author-info">
+                            <h4>Dr. Michael Chen</h4>
+                            <p>Healthcare Volunteer, 3 years</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>I started volunteering with Save the Kids during college, and it has shaped my career path. The skills I gained and the connections I made have been invaluable. Most importantly, I know I've made a difference.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-image">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80" alt="Priya Patel">
+                        </div>
+                        <div class="author-info">
+                            <h4>Priya Patel</h4>
+                            <p>Administrative Volunteer, 1 year</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="apply-section" id="apply">
+        <div class="container">
+            <div class="section-title">
+                <h2>Apply to Volunteer</h2>
+                <p>Take the first step towards making a difference in children's lives</p>
+            </div>
+
+            <div class="apply-form">
+                <form id="volunteerForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input type="text" id="location" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="opportunity">Volunteer Opportunity</label>
+                            <select id="opportunity" class="form-control" required>
+                                <option value="">Select an opportunity</option>
+                                <option value="education">Education Volunteer</option>
+                                <option value="healthcare">Healthcare Volunteer</option>
+                                <option value="administrative">Administrative Volunteer</option>
+                                <option value="event">Event Volunteer</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="availability">Availability</label>
+                            <select id="availability" class="form-control" required>
+                                <option value="">Select availability</option>
+                                <option value="weekdays">Weekdays</option>
+                                <option value="weekends">Weekends</option>
+                                <option value="evenings">Evenings</option>
+                                <option value="flexible">Flexible</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hours">Hours per Week</label>
+                            <select id="hours" class="form-control" required>
+                                <option value="">Select hours</option>
+                                <option value="1-5">1-5 hours</option>
+                                <option value="5-10">5-10 hours</option>
+                                <option value="10-20">10-20 hours</option>
+                                <option value="20+">20+ hours</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="experience">Relevant Experience</label>
+                            <textarea id="experience" class="form-control" required></textarea>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="motivation">Why do you want to volunteer with Save the Kids?</label>
+                            <textarea id="motivation" class="form-control" required></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Application</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h4>SAVE THE KIDS</h4>
+                    <ul>
+                        <li><a href="index (2).html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="programs.html">Programs</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>GET INVOLVED</h4>
+                    <ul>
+                        <li><a href="donation.html">Donate</a></li>
+                        <li><a href="volunteer.html">Volunteer</a></li>
+                        <li><a href="fundraise.html">Fundraise</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>LEGAL</h4>
+                    <ul>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>CONTACT US</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Charity Lane, New York, NY 10001</p>
+                    <p><i class="fas fa-envelope"></i> info@savethekids.org</p>
+                    <p><i class="fas fa-phone"></i> (123) 456-7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Save the Kids. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page transition animation
+        const pageTransition = document.getElementById('pageTransition');
+        
+        // Show transition when navigating away
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (!this.href.includes('#')) {
+                    e.preventDefault();
+                    pageTransition.classList.add('active');
+                    
+                    setTimeout(() => {
+                        window.location.href = this.href;
+                    }, 800);
+                }
+            });
+        });
+        
+        // Hide transition on page load
+        window.addEventListener('load', () => {
+            pageTransition.classList.remove('active');
+        });
+        
+        // Show transition briefly on page load for effect
+        pageTransition.classList.add('active');
+        setTimeout(() => {
+            pageTransition.classList.remove('active');
+        }, 800);
+        
+        // Form submission
+        document.getElementById('volunteerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your interest in volunteering! We will review your application and contact you soon.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
